@@ -11,10 +11,10 @@ if len(sys.argv) > 1:
 
 # def fetchUrl(url):
 # resp = urllib.request.urlopen(url)
-#     data = resp.read()
-#     t = data.decode('utf-8')
-#     s = BeautifulSoup(t)
-#     return t, s
+# data = resp.read()
+# t = data.decode('utf-8')
+# s = BeautifulSoup(t)
+# return t, s
 
 # os.chdir('c:/Users/jalbert/Downloads/clojars')
 
@@ -39,6 +39,7 @@ for m in tf.getmembers():
 #         # print(dict(resp.getheaders()))
 #     except Exception as e:
 #         print(e)
+#         problems.append(e)
 #         problems.append(url)
 
 open('allPackagesUrls.txt', 'w').write('\n'.join(allPackagesUrls))
@@ -54,5 +55,5 @@ open('allPackagesUrls.txt', 'w').write('\n'.join(allPackagesUrls))
 #     print(e)
 os.mkdir('files')
 subprocess.call(['cp', 'allPackagesUrls.txt', 'files/allPackagesUrls.txt'])
-os.cddir('files')
+os.chdir('files')
 subprocess.call(['wget', '-i', 'allPackagesUrls.txt'])
