@@ -16,15 +16,19 @@ tf = tarfile.open('index.tar.gz')
 for m in tf.getmembers():
     if str(m.name).endswith('.cabal'):
         parts = m.name.split('/')
-        libName = parts[0]
+        name = parts[0]
         version = parts[1]
-        name = libName + '-' + version
-        allPackagesUrls.append(prefix + '/package/' + name + '/' + name + '.tar.gz')
+        nameAndVersion = name + '-' + version
+        allPackagesUrls.append(prefix + '/package/' + nameAndVersion + '/' + nameAndVersion + '.tar.gz')
+        allPackagesUrls.append(prefix + '/package/' + nameAndVersion + '/' + name + '.cabal')
+
+        #http://hackage.haskell.org/package/3d-graphics-examples-0.0.0.0/3d-graphics-examples-0.0.0.0.tar.gz
+        #http://hackage.haskell.org/package/3d-graphics-examples-0.0.0.0/3d-graphics-examples.cabal
 
 open('allPackagesUrls.txt', 'w').write('\n'.join(allPackagesUrls))
 
 os.mkdir('files')
-subprocess.call(['cp', 'allPackagesUrls.txt', 'files/allPackagesUrls.txt'])
+subprocess.call(['mv', 'allPackagesUrls.txt', 'files'])
 os.chdir('files')
 subprocess.call(['wget', '-i', 'allPackagesUrls.txt'])
 
@@ -36,12 +40,10 @@ os.mkdir('package')
 for m in tf.getmembers():
     if str(m.name).endswith('.cabal'):
         parts = m.name.split('/')
-        libName = parts[0]
+        name = parts[0]
         version = parts[1]
-        name = libName + '-' + version
-        subprocess.call(['mkdir',  './package/' + name])
-        subprocess.call(['mv', './files/' + name + '.tar.gz', './package/' + name])
-        # copiar m (tar entry) en './package/' + name
+        nameAndVersion = name + '-' + version
+        subprocess.call(['mkdir', './package/' + nameAndVersion])
+        subprocess.call(['mv', './files/' + nameAndVersion + '.tar.gz', './package/' + nameAndVersion])
 
-# http://hackage.haskell.org/package/3d-graphics-examples-0.0.0.0/3d-graphics-examples-0.0.0.0.tar.gz
-# http://hackage.haskell.org/package/3d-graphics-examples-0.0.0.0/3d-graphics-examples.cabal
+subprocess.call(['mv', 'index.tar.gz', 'package'])
