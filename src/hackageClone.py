@@ -42,6 +42,7 @@ def download(compress=True):
         tf.add('files')
         tf.add('index.tar.gz')
         tf.close()
+        subprocess.call(['rm', '-R', 'files'])
 
 
 def organize():
