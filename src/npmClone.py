@@ -46,11 +46,18 @@ def cloneRepos(n, m):
         subprocess.call(['rm', '-R', repo])
         os.chdir('..')
 
-
 def cloneAllRepos():
     data = open('repos.txt').readlines()
     cloneRepos(0, len(data))
 
 # cloneRepos(0, 3)
-prepare()
-cloneAllRepos()
+def downloadAll():
+    prepare()
+    cloneAllRepos()
+    os.chdir('..')
+    tf = tarfile.open('npm.tar.gz', 'w:gz')
+    tf.add('npm')
+    tf.close()
+    subprocess.call(['rm', '-R', 'npm'])
+
+downloadAll()
