@@ -25,7 +25,7 @@ def prepare():
             # allPackagesUrls.append(prefix + '/package/' + nameAndVersion + '/' + name + '.cabal')
 
             # http://hackage.haskell.org/package/3d-graphics-examples-0.0.0.0/3d-graphics-examples-0.0.0.0.tar.gz
-            #http://hackage.haskell.org/package/3d-graphics-examples-0.0.0.0/3d-graphics-examples.cabal
+            # http://hackage.haskell.org/package/3d-graphics-examples-0.0.0.0/3d-graphics-examples.cabal
 
     open('allPackagesUrls.txt', 'w').write('\n'.join(allPackagesUrls))
 
@@ -43,6 +43,7 @@ def download(compress=True):
         tf.add('index.tar.gz')
         tf.close()
         subprocess.call(['rm', '-R', 'files'])
+        subprocess.call(['rm', 'index.tar.gz'])
 
 
 def organize():
@@ -62,6 +63,7 @@ def organize():
             # subprocess.call(['mv', './files/' + name + '.cabal', './package/' + nameAndVersion])
 
     subprocess.call(['mv', 'index.tar.gz', 'package'])
+
 
 prepare()
 download()
