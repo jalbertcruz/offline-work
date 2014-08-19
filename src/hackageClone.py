@@ -59,11 +59,16 @@ def organize():
             nameAndVersion = name + '-' + version
             subprocess.call(['mkdir', './package/' + nameAndVersion])
             subprocess.call(['mv', './files/' + nameAndVersion + '.tar.gz', './package/' + nameAndVersion])
-            tf.extract(m, './package/' + nameAndVersion)
-            # subprocess.call(['mv', './files/' + name + '.cabal', './package/' + nameAndVersion])
+            file = tf.extractfile(m)
+            parts = m.name.split('/')
+            r = open('./package/' + nameAndVersion + '/' + parts[-1], 'wb')
+            r.write(file.read())
+            r.close()
+            subprocess.call(['mv', './files/' + name + '.cabal', './package/' + nameAndVersion])
 
     subprocess.call(['mv', 'index.tar.gz', 'package'])
 
 
+# organize()
 prepare()
 download()
